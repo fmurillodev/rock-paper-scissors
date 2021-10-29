@@ -1,0 +1,10 @@
+@import 'styles/_colors.scss';
+
+body {
+  margin: 0;
+  font-family: Zen Kurenaido, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $bg-color-app;
+  color: $text-color-global;
+}

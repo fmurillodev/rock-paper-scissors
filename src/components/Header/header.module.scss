@@ -1,0 +1,26 @@
+.headerContainer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+div.headerContainer > h3 {
+  margin-left: 50px;
+}
+
+div.headerContainer > .icon {
+  cursor: pointer;
+  font-size: 2rem;
+  margin-right: 50px;
+}
+
+@media only screen and (max-width: 600px) {
+  div.headerContainer > h3 {
+    margin-left: 15px;
+  }
+
+  div.headerContainer > .icon {
+    margin-right: 15px;
+  }
+}
