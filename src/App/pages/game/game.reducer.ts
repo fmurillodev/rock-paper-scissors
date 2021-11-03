@@ -1,6 +1,6 @@
 import produce, { current } from 'immer';
 
-import { LOCAL_CONFIG, OPTIONS } from 'constants/common';
+import { LOCAL_CONFIG, OPTIONS, scoresDefault } from 'constants/common';
 
 import { resultGame } from './game.action';
 import { IGameActions } from './game.actions';
@@ -40,7 +40,10 @@ export const gameReducer = (state = gameInitialState, action: IGameActions) =>
 
     switch (action.type) {
       case gameActionTypes.SET_DATA_USER:
-        draft.scores = InitialScore;
+        draft.scores = scoresDefault.reduce(
+          (acc, score) => ({ ...acc, [score]: action.payload.user[score] }),
+          {},
+        );
         break;
 
       case gameActionTypes.PLAYER_MOVE:
