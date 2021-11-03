@@ -6,10 +6,14 @@ import { homeActionTypes } from './home.actionsType';
 import { fetchUserSuccessAction } from './home.actions';
 
 export function* fetchUserSaga() {
-  const users = JSON.parse(localStorage.getItem(LOCAL_CONFIG) || '');
-  yield put(fetchUserSuccessAction(users));
+  try {
+    const users = JSON.parse(localStorage.getItem(LOCAL_CONFIG) || '');
+    yield put(fetchUserSuccessAction(users));
+  } catch (error) {
+    // handle Error
+  }
 }
 
-export default function* gameSaga() {
+export default function* homeSaga() {
   yield all([takeEvery(homeActionTypes.FETCH_USER, fetchUserSaga)]);
 }
