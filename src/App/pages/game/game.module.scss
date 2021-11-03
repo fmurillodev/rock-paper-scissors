@@ -46,7 +46,10 @@ div.back {
   font-size: 3rem;
   transform: translateX(0px) rotate(-90deg);
 }
-
+div.rootScore {
+  display: flex;
+  justify-content: space-around;
+}
 .containerScore {
   display: grid;
   align-content: center;

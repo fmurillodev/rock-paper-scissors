@@ -1,7 +1,7 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import Home from 'pages/home';
-import Game from 'pages/game';
+import Home from 'App/pages/home';
+import Game from 'App/pages/game';
 
 const Routes = () => {
   return (
