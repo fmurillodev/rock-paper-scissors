@@ -8,3 +8,7 @@ export interface IScores {
 
 export type ICurrentUser = string;
 export type IUsers = IScores;
+
+export interface IIcons {
+  [key: string]: string;
+}

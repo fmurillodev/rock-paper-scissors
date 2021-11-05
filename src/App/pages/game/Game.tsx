@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 
@@ -9,6 +9,7 @@ import { exitGame, IExitGame } from 'App/pages/home/home.actions';
 import Header from 'App/components/Header';
 import Icon from 'App/components/Icon';
 import { OPTIONS } from 'constants/common';
+import LoadingHooks from 'hooks/loadingHook';
 
 import { selectCurrentUser, selectDataUsers, selectGame } from './game.selectors';
 import { IGameState } from './game.reducer';
@@ -29,8 +30,8 @@ interface IProps {
 
 const Game = (props: IProps) => {
   const history = useHistory();
+  const { loading, setLoading } = LoadingHooks();
   const { dataUser, currentUser, setDataUser } = props;
-  const [loading, setLoading] = useState<boolean>(true);
 
   const handleClickExit = () => {
     props.resetGame();
@@ -43,11 +44,11 @@ const Game = (props: IProps) => {
     if (currentUser) {
       const init = () => {
         setDataUser(dataUser[currentUser.toLowerCase()]);
-        setLoading(false);
+        setLoading((prevLoading) => !prevLoading);
       };
       init();
     }
-  }, [currentUser, history, dataUser, setDataUser]);
+  }, [currentUser, history, dataUser, setDataUser, setLoading]);
 
   return (
     <div className={gameModule.rootGame}>

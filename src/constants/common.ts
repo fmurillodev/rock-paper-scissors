@@ -1,6 +1,4 @@
-export interface IIcons {
-  [key: string]: string;
-}
+import { IIcons } from 'types/common';
 
 export const LOCAL_CONFIG: string = 'LOCAL_CONFIG_STORE';
 export const OPTIONS = ['Rock', 'Paper', 'Scissors'];

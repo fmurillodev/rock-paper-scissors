@@ -8,3 +8,40 @@ body {
   background-color: $bg-color-app;
   color: $text-color-global;
 }
+
+@keyframes changeColor {
+  from {
+    color: #34beec;
+  }
+  to {
+    color: #white;
+  }
+}
+div.container-logo {
+  background-color: #303874;
+  border-radius: 50%;
+  border: 3px solid white;
+  height: 220px;
+  margin-bottom: 2rem;
+  width: 220px;
+}
+
+div.container-logo > .rock,
+.paper,
+.sicssors {
+  font-size: 5rem;
+}
+
+div.container-logo > .rock {
+  color: #6cd1f3;
+  transform: translateX(67px) translateY(11px) rotate(-90deg);
+}
+
+div.container-logo > .paper {
+  color: #e4b46d;
+  transform: translateX(48px) translateY(108px) rotate(40deg);
+}
+div.container-logo > .sicssors {
+  color: #f79bbe;
+  transform: translateX(25px) translateY(30px) rotate(142deg);
+}

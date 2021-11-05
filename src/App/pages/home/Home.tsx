@@ -4,11 +4,13 @@ import { useHistory } from 'react-router';
 
 import { IUsers, ICurrentUser } from 'types/common';
 import { IStore } from 'store';
+import LoadingHook from 'hooks/loadingHook';
 
 import { fetchUser, IFetchUserAction, ISetUserAction, setUserAction } from './home.actions';
 import { selectAllUsersData, selectCurrentUser } from './home.selectors';
 
 import styleModule from './app.module.scss';
+import Icon from 'App/components/Icon';
 
 interface IProps {
   allUsers: IUsers;
@@ -19,8 +21,8 @@ interface IProps {
 
 const Home = (props: IProps) => {
   let history = useHistory();
+  const { loading, setLoading } = LoadingHook();
   const [inputValue, setInputValue] = useState('');
-  const [loading, setLoading] = useState(true);
   const { fetchUser } = props;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,20 +31,20 @@ const Home = (props: IProps) => {
   };
 
   const handleJoin = () => {
-    props.setUser(inputValue);
+    if (inputValue.length) {
+      return props.setUser(inputValue);
+    }
+    alert('Remember write your Name');
   };
 
   useEffect(() => {
     fetchUser();
-  }, [fetchUser]);
+    setLoading((prevLoading) => !prevLoading);
+  }, [fetchUser, setLoading]);
 
   useEffect(() => {
     if (props.currentUser) {
-      setTimeout(() => {
-        history.push('/game');
-      }, 1500);
-    } else {
-      setLoading(false);
+      history.push('/game');
     }
   }, [props.currentUser, history]);
 
@@ -51,7 +53,11 @@ const Home = (props: IProps) => {
       {loading && <h1>loading...</h1>}
       {!loading && (
         <>
-          <img src="/logo-game.png" alt="Logo Game" />
+          <div className="container-logo">
+            <Icon className="rock" type="Rock" />
+            <Icon className="paper" type="Paper" />
+            <Icon className="sicssors" type="Scissors" />
+          </div>
           <input
             type="text"
             placeholder="Enter your Name"

@@ -15,5 +15,5 @@ export const resultGame = (player: string, computer: string) => {
   )
     return { message: `${msg} ** Won **`, score: { win: true } };
 
-  return { message: `${msg} !! Perdiste !!`, score: { lost: true } };
+  return { message: `${msg} You lost :(`, score: { lost: true } };
 };
