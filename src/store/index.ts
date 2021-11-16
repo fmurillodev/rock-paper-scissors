@@ -7,16 +7,19 @@ import rootReducer from './rootReducer';
 
 import { IGameState } from 'App/pages/game/game.reducer';
 import { IHomeState } from 'App/pages/home/home.reducer';
+import { fetchCurrentUser } from 'App/pages/home/home.actions';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export interface IStore {
-  users: IHomeState;
+  user: IHomeState,
   game: IGameState;
 }
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 sagaMiddleware.run(rootSaga);
+
+store.dispatch(fetchCurrentUser());
 
 export default store;
