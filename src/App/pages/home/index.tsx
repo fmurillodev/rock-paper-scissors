@@ -1,3 +1,3 @@
-import { default as Home } from './Home';
+import Home from './Home.container';
 
 export default Home;

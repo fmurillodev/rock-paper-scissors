@@ -1,28 +1,34 @@
-import { LOCAL_CONFIG } from 'constants/common';
+import { getItemsLocalStorage, setItemsLocalStorage } from 'utils/connectLocalStorage';
+
 import { InitialScore } from './home.constants';
-import { IHomeState } from './home.reducer';
 
-export const signin = (state: IHomeState, user: string) => {
-  let joinUser;
+export const getCurrentUser = (): string => {
+  const items = getItemsLocalStorage();
+  return items.currentUser
+}
 
-  if (!state) {
-    joinUser = JSON.stringify({
-      allUsers: { [user.toLowerCase()]: InitialScore },
-      currentUser: user.toLowerCase(),
+export const makeUser = (user: string): void => {
+  const items = getItemsLocalStorage();
+  if (!items.users || !items.users[user]) {
+    setItemsLocalStorage({
+      users: {
+        ...items.users,
+        [user]: InitialScore
+      },
+      currentUser: user
     });
   } else {
-    if (!state.allUsers[user.toLowerCase()]) {
-      joinUser = JSON.stringify({
-        allUsers: { ...state.allUsers, [user.toLowerCase()]: InitialScore },
-        currentUser: user.toLowerCase(),
-      });
-    } else {
-      joinUser = JSON.stringify({
-        ...state,
-        currentUser: user.toLowerCase(),
-      });
-    }
+    setItemsLocalStorage({
+      ...items,
+      currentUser: user
+    });
   }
-  localStorage.setItem(LOCAL_CONFIG, joinUser);
-  return JSON.parse(joinUser);
-};
+}
+
+export const disconnectCurrentUser = () => {
+  const items = getItemsLocalStorage();
+  setItemsLocalStorage({
+    ...items,
+    currentUser: ""
+  });
+}

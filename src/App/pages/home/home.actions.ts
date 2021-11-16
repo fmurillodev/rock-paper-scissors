@@ -1,28 +1,25 @@
 import { Action } from 'redux';
 
 import { homeActionTypes } from './home.actionsType';
-import { ICurrentUser, IUsers } from 'types/common';
 
-export interface IFetchUserReturnValue extends Action<homeActionTypes.FETCH_USER> {}
-export type IFetchUserAction = () => IFetchUserReturnValue;
-export const fetchUser = (): IFetchUserReturnValue => ({
-  type: homeActionTypes.FETCH_USER,
+
+export interface IFetchCurrentUserReturnValue extends Action<homeActionTypes.FETCH_CURRENT_USER> { }
+export type IFetchCurrentUserAction = () => IFetchCurrentUserReturnValue;
+export const fetchCurrentUser = (): IFetchCurrentUserReturnValue => ({
+  type: homeActionTypes.FETCH_CURRENT_USER,
 });
 
-export type IFetchUserSuccessArguments = { allUsers: IUsers; currentUser: ICurrentUser };
-export interface IFetchUserSuccessPayload {
-  data: { allUsers: IUsers; currentUser: ICurrentUser };
+export type IJoinUserArguments = string;
+export interface IJoinUserPayload {
+  user: IJoinUserArguments;
 }
-export interface IFetchUserSuccessActionReturnValue
-  extends Action<homeActionTypes.FETCH_USER_SUCCESS> {
-  payload: IFetchUserSuccessPayload;
+export interface IJoinUserReturnValue extends Action<homeActionTypes.JOIN_USER> {
+  payload: IJoinUserPayload;
 }
-
-export const fetchUserSuccessAction = (
-  data: IFetchUserSuccessArguments,
-): IFetchUserSuccessActionReturnValue => ({
-  type: homeActionTypes.FETCH_USER_SUCCESS,
-  payload: { data },
+export type IJoinUserAction = (user: IJoinUserArguments) => IJoinUserReturnValue;
+export const joinUserAction = (user: IJoinUserArguments): IJoinUserReturnValue => ({
+  type: homeActionTypes.JOIN_USER,
+  payload: { user },
 });
 
 export type ISetUserArguments = string;
@@ -32,22 +29,21 @@ export interface ISetUserPayload {
 export interface ISetUserReturnValue extends Action<homeActionTypes.SET_USER> {
   payload: ISetUserPayload;
 }
-
 export type ISetUserAction = (user: ISetUserArguments) => ISetUserReturnValue;
-
 export const setUserAction = (user: ISetUserArguments): ISetUserReturnValue => ({
   type: homeActionTypes.SET_USER,
   payload: { user },
 });
 
-export interface IExitGameReturnValue extends Action<homeActionTypes.EXIT_USER> {}
+
+
+export interface IExitGameReturnValue extends Action<homeActionTypes.EXIT_USER> { }
 export type IExitGame = () => IExitGameReturnValue;
 export const exitGame = (): IExitGameReturnValue => ({
   type: homeActionTypes.EXIT_USER,
 });
 
 export type IHomeActions =
-  | IFetchUserReturnValue
-  | IFetchUserSuccessActionReturnValue
+  | IFetchCurrentUserReturnValue
   | ISetUserReturnValue
   | IExitGameReturnValue;
