@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { capitalize } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
@@ -63,7 +64,7 @@ const Game = (props: IProps) => {
     <div className={gameModule.rootGame}>
       {!loading && (
         <>
-          <Header greeting={`Hi, ${props.currentUser}`} onClick={handleClickExit} />
+          <Header greeting={`Hi, ${capitalize(props.currentUser)}`} onClick={handleClickExit} />
 
           <div className={gameModule.container}>
             <div className={gameModule.rootScore}>

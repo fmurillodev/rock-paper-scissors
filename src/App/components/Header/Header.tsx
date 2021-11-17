@@ -1,6 +1,4 @@
-import React from 'react';
 import { BiExit } from 'react-icons/bi';
-
 import styleModule from './header.module.scss';
 
 interface IHeader {
