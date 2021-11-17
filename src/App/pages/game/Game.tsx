@@ -1,37 +1,37 @@
 import classNames from 'classnames';
-import { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
-import { IStore } from 'store';
-import { ICurrentUser, IScores } from 'types/common';
-import { exitGame, IExitGame } from 'App/pages/home/home.actions';
+import { ICurrentUser } from 'types/common';
+import { IExitGame } from 'App/pages/home/home.actions';
 import Header from 'App/components/Header';
 import Icon from 'App/components/Icon';
 import { OPTIONS } from 'constants/common';
-import LoadingHooks from 'hooks/loadingHook';
 
-import { selectCurrentUser, selectDataUsers, selectGame } from './game.selectors';
 import { IGameState } from './game.reducer';
-import { IResetGameAction, ISetDataUserAction, ISetPlayerMoveAction } from './game.actions';
-import { playerMoveAction, resetGameAction, setDataUserAction } from './game.actions';
+import {
+  IFetchUserScoreAction,
+  IResetGameAction,
+  ISetPlayerMoveAction,
+  IResultGameAction,
+} from './game.actions';
 
 import gameModule from './game.module.scss';
 
 interface IProps {
   currentUser: ICurrentUser;
-  dataUser: IScores;
   exitGame: IExitGame;
   game: IGameState;
   playerMove: ISetPlayerMoveAction;
   resetGame: IResetGameAction;
-  setDataUser: ISetDataUserAction;
+  fetchUserScoreAction: IFetchUserScoreAction;
+  resultGame: IResultGameAction;
 }
 
 const Game = (props: IProps) => {
   const history = useHistory();
-  const { loading, setLoading } = LoadingHooks();
-  const { dataUser, currentUser, setDataUser } = props;
+  const [loading, setLoading] = useState(true);
+  const { currentUser, fetchUserScoreAction, game, resultGame } = props;
 
   const handleClickExit = () => {
     props.resetGame();
@@ -40,15 +40,24 @@ const Game = (props: IProps) => {
   };
 
   useEffect(() => {
-    !currentUser && history.push('/');
     if (currentUser) {
       const init = () => {
-        setDataUser(dataUser[currentUser.toLowerCase()]);
+        fetchUserScoreAction(currentUser);
         setLoading((prevLoading) => !prevLoading);
       };
       init();
     }
-  }, [currentUser, history, dataUser, setDataUser, setLoading]);
+    return () => {
+      !currentUser && history.push('/');
+    };
+  }, [currentUser, history, fetchUserScoreAction, setLoading]);
+
+  useEffect(() => {
+    if (game.computer && game.player) {
+      resultGame({ player: game.player, computer: game.computer, scores: game.scores });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game.computer, game.player, resultGame]);
 
   return (
     <div className={gameModule.rootGame}>
@@ -69,7 +78,7 @@ const Game = (props: IProps) => {
               <div className={classNames(gameModule.card, { [gameModule.back]: props.game.play })}>
                 <Icon
                   type={props.game.player}
-                  className={classNames(gameModule.iconSelectGame, gameModule.iconBack, {
+                  className={classNames(gameModule.iconBack, {
                     [gameModule.iconNotHidden]: props.game.player,
                     [gameModule.iconHidden]: !props.game.player,
                   })}
@@ -79,7 +88,7 @@ const Game = (props: IProps) => {
               <div className={classNames(gameModule.card, { [gameModule.back]: props.game.play })}>
                 <Icon
                   type={props.game.computer}
-                  className={classNames(gameModule.iconSelectGame, gameModule.iconBack, {
+                  className={classNames(gameModule.iconBack, {
                     [gameModule.iconNotHidden]: props.game.computer,
                     [gameModule.iconHidden]: !props.game.computer,
                   })}
@@ -92,7 +101,7 @@ const Game = (props: IProps) => {
             </div>
 
             {props.game.play && (
-              <div className={gameModule.contanierButton}>
+              <div className={gameModule.containerButton}>
                 <button className={gameModule.resetGame} onClick={props.resetGame}>
                   Again
                 </button>
@@ -117,17 +126,4 @@ const Game = (props: IProps) => {
   );
 };
 
-const mapStateToProps = (state: IStore) => ({
-  dataUser: selectDataUsers(state),
-  game: selectGame(state),
-  currentUser: selectCurrentUser(state),
-});
-
-const mapDispatchToProps = {
-  exitGame: exitGame,
-  playerMove: playerMoveAction,
-  resetGame: resetGameAction,
-  setDataUser: setDataUserAction,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default Game;

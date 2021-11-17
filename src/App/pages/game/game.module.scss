@@ -1,144 +1,151 @@
-div.rootGame {
+@import "styles/_mixings.scss";
+
+.rootGame {
   height: 100vh;
-}
-div.container {
-  margin: 0 auto;
-  width: 40%;
-}
 
-div.containerMessage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 120px;
-  margin-bottom: 50px;
-}
-p.message {
-  font-size: 2rem;
-}
+  .container {
+    margin: 0 auto;
+    width: 40%;
 
-div.containerCardsGame {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  height: calc(100vh - 550px);
-  position: relative;
-  perspective: 1000px;
-}
-div.card {
-  transform-style: preserve-3d;
-  transition: all 0.4s ease;
-  border-radius: 7px;
-  background-color: #303874;
-  box-shadow: 3px 6px 6px 2px #0d142c;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    @include xs {
+      width: 90%;
+      padding: 0px 5px;
+    }
 
-div.back {
-  background-color: #eaeaea;
-  transform: rotateY(180deg);
-}
+    .rootScore {
+      display: flex;
+      justify-content: space-around;
 
-.iconSelectGame {
-  cursor: pointer;
-  font-size: 3rem;
-  transform: translateX(0px) rotate(-90deg);
-}
-div.rootScore {
-  display: flex;
-  justify-content: space-around;
-}
-.containerScore {
-  display: grid;
-  align-content: center;
-  text-align: center;
-}
-.icon {
-  font-size: 3rem;
-}
+      .containerScore {
+        display: grid;
+        align-content: center;
+        text-align: center;
 
-.iconBack {
-  font-size: 14rem;
-  color: #303874;
-  transition: all 0.5s ease;
-  z-index: 1;
-}
+        .icon {
+          font-size: 3rem;
+        }
+      }
+    }
 
-.iconHidden {
-  visibility: hidden;
-}
+    .containerCardsGame {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      height: calc(100vh - 550px);
+      position: relative;
+      perspective: 1000px;
 
-.iconNotHidden {
-  visibility: visible;
-}
+      .card {
+        transform-style: preserve-3d;
+        transition: all 0.4s ease;
+        border-radius: 7px;
+        background-color: #303874;
+        box-shadow: 3px 6px 6px 2px #0d142c;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-div.containerSelectIconGame {
-  border: 1px solid #fff;
-  background-color: #303874;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-}
+      .back {
+        background-color: #eaeaea;
+        transform: rotateY(180deg);
+      }
 
-div.containerGame {
-  cursor: pointer;
-  width: 300px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  & :hover {
-    background: #191c32;
-  }
-  & div:first-child {
-    border-radius: 10px 0px 0px 10px;
-    border: 1px solid #fff;
-  }
-  & div:last-child {
-    border-radius: 0px 10px 10px 0px;
-    border: 1px solid #fff;
-  }
-}
+      .iconBack {
+        transform: translateX(0px) rotate(-90deg);
+        font-size: 14rem;
+        color: #303874;
+        transition: all 0.5s ease;
+        z-index: 1;
 
-button.resetGame {
-  background-color: #303874;
-  border-color: transparent;
-  border-radius: 10px;
-  border: 1px solid #fff;
-  color: #fff;
-  cursor: pointer;
-  font-size: 1.3rem;
-  font-weight: 100;
-  height: 70px;
-  padding: 15px 20px;
-  text-transform: uppercase;
-  transition: all ease 100ms;
-  width: 200px;
+        @include xs {
+          font-size: 8rem;
+        }
+      }
 
-  &:hover {
-    background-color: #4b5177;
-  }
-}
+      .iconHidden {
+        visibility: hidden;
+      }
 
-div.contanierButton {
-  text-align: center;
-}
+      .iconNotHidden {
+        visibility: visible;
+      }
+    }
 
-@media only screen and (max-width: 600px) {
-  div.container {
-    width: 90%;
-    padding: 0px 5px;
-  }
-  div.containerMessage {
-    height: 80px;
-    margin-bottom: 40px;
-  }
-  p.message {
-    font-size: 1.2rem;
-    text-align: center;
-  }
-  .iconBack {
-    font-size: 8rem;
+    .containerMessage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 120px;
+      margin-bottom: 50px;
+
+      @include xs {
+        height: 80px;
+        margin-bottom: 40px;
+      }
+
+      .message {
+        font-size: 2rem;
+
+        @include xs {
+          font-size: 1.2rem;
+          text-align: center;
+        }
+      }
+    }
+
+    .containerButton {
+      text-align: center;
+
+      .resetGame {
+        background-color: #303874;
+        border-color: transparent;
+        border-radius: 10px;
+        border: 1px solid #fff;
+        color: #fff;
+        cursor: pointer;
+        font-size: 1.3rem;
+        font-weight: 100;
+        height: 70px;
+        padding: 15px 20px;
+        text-transform: uppercase;
+        transition: all ease 100ms;
+        width: 200px;
+
+        &:hover {
+          background-color: #4b5177;
+        }
+      }
+    }
+
+    .containerGame {
+      cursor: pointer;
+      width: 300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      & :first-child {
+        border-radius: 10px 0px 0px 10px;
+      }
+      & :last-child {
+        border-radius: 0px 10px 10px 0px;
+      }
+      & :hover {
+        background-color: #191c32 !important;
+      }
+      .containerSelectIconGame {
+        border: 1px solid #fff;
+        background-color: #303874;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+
+        .iconSelectGame {
+          cursor: pointer;
+          font-size: 3rem;
+          transform: translateX(0px) rotate(-90deg);
+        }
+      }
+    }
   }
 }

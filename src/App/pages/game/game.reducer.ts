@@ -1,8 +1,7 @@
-import produce, { current } from 'immer';
+import produce from 'immer';
 
-import { LOCAL_CONFIG, OPTIONS, scoresDefault } from 'constants/common';
+import { scoresDefault } from 'constants/common';
 
-import { resultGame } from './game.action';
 import { IGameActions } from './game.actions';
 import { gameActionTypes } from './game.actionsType';
 import { InitialScore } from '../home/home.constants';
@@ -34,14 +33,10 @@ export const gameInitialState: IGameState = {
 
 export const gameReducer = (state = gameInitialState, action: IGameActions) =>
   produce(state, (draft) => {
-    const copy = current(draft);
-    const player = copy.player;
-    const computer = copy.computer;
-
     switch (action.type) {
       case gameActionTypes.SET_DATA_USER:
         draft.scores = scoresDefault.reduce(
-          (acc, score) => ({ ...acc, [score]: action.payload.user[score] }),
+          (acc, score) => ({ ...acc, [score]: action.payload.scores[score] }),
           {},
         );
         break;
@@ -51,28 +46,12 @@ export const gameReducer = (state = gameInitialState, action: IGameActions) =>
         break;
 
       case gameActionTypes.COMPUTER_MOVE:
-        draft.computer = OPTIONS[action.payload.opt];
+        draft.computer = action.payload.opt;
         draft.play = true;
         break;
 
-      case gameActionTypes.RESULT_GAME:
-        const { message, score } = resultGame(player, computer);
-        draft.message = message;
-        draft.scores.lost.score = score?.lost
-          ? draft.scores.lost.score + 1
-          : draft.scores.lost.score;
-        draft.scores.win.score = score?.win ? draft.scores.win.score + 1 : draft.scores.win.score;
-        draft.scores.totalGames.score = draft.scores.totalGames.score + 1;
-        break;
-
-      case gameActionTypes.PERSIST_RESULT:
-        const usersOfStorage = JSON.parse(localStorage.getItem(LOCAL_CONFIG) || '');
-        const resultSave = { [usersOfStorage.currentUser]: copy.scores };
-        const dataBySave = {
-          currentUser: usersOfStorage.currentUser,
-          allUsers: { ...usersOfStorage.allUsers, ...resultSave },
-        };
-        localStorage.setItem(LOCAL_CONFIG, JSON.stringify(dataBySave));
+      case gameActionTypes.SET_MESSAGE:
+        draft.message = action.payload.message;
         break;
 
       case gameActionTypes.RESET_GAME:
